@@ -26,9 +26,13 @@
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
         
-            var topics = 
+            var topics = ["Seinfeld", "The Office", "Parks and Recreation", "It's Always Sunny in Philadelphia", "30 Rock", "Friends"]
         
-        
+            function displayTVInfo() {
+                
+                var tv = $(this).attr("data-name")
+                var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + tv + "&api_key=tRAhj61FvMa1nYZWQRqGK4agUPTewRBY&limit=10";
+            }
         </script>
     </div>
 
