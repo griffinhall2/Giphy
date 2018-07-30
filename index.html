@@ -1,4 +1,4 @@
-<!DOCTYPE <!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,7 +6,7 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    
 </head>
 <body>
     
@@ -15,9 +15,9 @@
         <div id="tv-view"></div>
 
         <div id="buttons-view"></div>
-        
+        <br>
         <form id="tv-form">
-            <label for="movie-input">Add a TV Show!</label>
+            
             <input type="text" id="tv-input">
             
             <input id="add-tv" type="submit" value="Add a TV Show!">
@@ -26,13 +26,67 @@
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
         
-            var topics = ["Seinfeld", "The Office", "Parks and Recreation", "It's Always Sunny in Philadelphia", "30 Rock", "Friends"]
+            var topics = ["Seinfeld", "The Office", "Parks and Recreation", "It's Always Sunny in Philadelphia", "30 Rock", "Friends"];
         
-            function displayTVInfo() {
+            function displayTVGif() {
                 
-                var tv = $(this).attr("data-name")
-                var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + tv + "&api_key=tRAhj61FvMa1nYZWQRqGK4agUPTewRBY&limit=10";
+                var tv = $(this).attr("data-name");
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + tv + "&api_key=tRAhj61FvMa1nYZWQRqGK4agUPTewRBY&limit=10";
+                console.log(queryURL);
+                
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function(response) {
+                console.log(response);
+                    
+                    var tvInfo = response.data
+
+                    for (var i = 0; i < tvInfo.length; i++) {
+                        
+                        
+                        var tvDiv = $("<div class='tv'>");
+
+                        var pOne = $("<p>");
+
+                        pOne.text(tvInfo[i].rating);
+
+                        var gifImage = $("<img>").attr("src", tvInfo[i].images.fixed_height.url);
+                    
+
+                        tvDiv.append(pOne, gifImage);
+                    
+                        $("#tv-view").prepend(tvDiv);
+                    }
+
+
+                });
             }
+
+            function renderButtons() {
+
+                $("#buttons-view").empty();
+
+                for (var i = 0; i < topics.length; i++) {
+                    var a = $("<button>");
+                    a.addClass("tv-btn");
+                    a.attr("data-name", topics[i]);
+                    a.text(topics[i]);
+                    $("#buttons-view").append(a);
+                }
+            }
+
+            $("#add-tv").on("click", function(event) {
+                event.preventDefault();
+                var tv = $("#tv-input").val().trim();
+                topics.push(tv);
+                renderButtons();
+            });
+
+            $(document).on("click", ".tv-btn", displayTVGif);
+
+            renderButtons();
+
         </script>
     </div>
 
