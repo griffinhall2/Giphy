@@ -1,0 +1,27 @@
+body {
+    background: url("../images/tv.jpg");
+    text-align: center;
+    background-size: 100%;
+}
+
+button {
+    background: blue;
+    color: white;
+    margin: 5px;
+    border-radius: 4px;
+    font-family: sans-serif;
+    font-size: medium; 
+}
+
+p {
+    color: blue;
+}
+
+img {
+    margin: 20px;
+    position: relative;
+}
+
+.tv {
+    float: left;
+}
