@@ -11,55 +11,68 @@
 <body>
     
     <div class="container">
-
-        <div id="tv-view"></div>
-
+        
         <div id="buttons-view"></div>
         <br>
+        <!--Add form for user to add movies to array-->
         <form id="tv-form">
             
             <input type="text" id="tv-input">
             
             <input id="add-tv" type="submit" value="Add a TV Show!">
         </form>
-    
+        
+        <!--Show Gifs Here-->
+        <div id="tv-view"></div>
+        
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
-        
+            
+            // Create array of tv shows.
             var topics = ["Seinfeld", "The Office", "Parks and Recreation", "It's Always Sunny in Philadelphia", "30 Rock", "Friends"];
         
             function displayTVGif() {
                 
                 var tv = $(this).attr("data-name");
+                
+                // Creating URL to search for tv show gifs
                 var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + tv + "&api_key=tRAhj61FvMa1nYZWQRqGK4agUPTewRBY&limit=10";
                 console.log(queryURL);
                 
+                // AJAX GET REQUEST
                 $.ajax({
                     url: queryURL,
                     method: "GET"
                 }).then(function(response) {
                 console.log(response);
                     
+                    //Store results in a variable
                     var tvInfo = response.data
-
+                    
+                    //Loop over results
                     for (var i = 0; i < tvInfo.length; i++) {
-                        
                         
                         var tvDiv = $("<div class='tv'>");
 
+                        //Create paragraph to store gif result's rating    
                         var pOne = $("<p>");
-
-                        pOne.text(tvInfo[i].rating);
-
-                        var gifImage = $("<img>").attr("src", tvInfo[i].images.fixed_height.url);
+                        
+                        pOne.text("Rating: " + tvInfo[i].rating);
+                        
+                        //Create image tag and give an src attribute tag
+                        var gifImage = $("<img>")
+                        gifImage.attr("src", tvInfo[i].images.fixed_height.url);
+                        gifImage.attr("data-still", tvInfo[i].images.fixed_height_still.url);
+                        gifImage.attr("data-animate", tvInfo[i].images.fixed_height.url);
+                        gifImage.attr("data-state", "animate");
+                        gifImage.addClass("image");
                     
-
+                        //Append paragraph and gif image to our div
                         tvDiv.append(pOne, gifImage);
-                    
+                        
+                        //prepending our gif div to our HTML div
                         $("#tv-view").prepend(tvDiv);
                     }
-
-
                 });
             }
 
@@ -86,7 +99,17 @@
             $(document).on("click", ".tv-btn", displayTVGif);
 
             renderButtons();
-
+            
+            $(document).on("click", ".image", function() {
+                var state = $(this).attr("data-state");
+                if (state === "still") {
+                    $(this).attr("src", $(this).attr("data-animate"));
+                    $(this).attr("data-state", "animate");
+                }   else {
+                    $(this).attr("src", $(this).attr("data-still"));
+                    $(this).attr("data-state", "still");
+                }
+            })
         </script>
     </div>
 
