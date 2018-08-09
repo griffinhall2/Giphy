@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -55,7 +55,6 @@
                     for (var i = 0; i < tvInfo.length; i++) {
                         
                         var tvDiv = $("<div class='tv'>");
-
                         //Create paragraph to store gif result's rating    
                         var pOne = $("<p>");
                         
@@ -79,9 +78,7 @@
             }
             //Render buttons for tv shows in the array
             function renderButtons() {
-
                 $("#buttons-view").empty();
-
                 for (var i = 0; i < topics.length; i++) {
                     var a = $("<button>");
                     a.addClass("tv-btn");
@@ -97,9 +94,7 @@
                 topics.push(tv);
                 renderButtons();
             });
-
             $(document).on("click", ".tv-btn", displayTVGif);
-
             renderButtons();
             //Add function to pause/animate gif
             $(document).on("click", ".image", function() {
